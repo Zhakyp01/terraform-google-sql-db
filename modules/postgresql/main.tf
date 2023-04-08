@@ -46,7 +46,6 @@ resource "random_id" "suffix" {
 }
 
 resource "google_sql_database_instance" "default" {
-  provider            = google-beta
   project             = var.project_id
   name                = local.master_instance_name
   database_version    = can(regex("\\d", substr(var.database_version, 0, 1))) ? format("POSTGRES_%s", var.database_version) : replace(var.database_version, substr(var.database_version, 0, 8), "POSTGRES")
