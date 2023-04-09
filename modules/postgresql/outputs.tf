@@ -91,11 +91,11 @@ output "read_replica_instance_names" {
   description = "The instance names for the read replica instances"
 }
 
-output "generated_user_password" {
-  description = "The auto generated default user password if not input password was provided"
-  value       = random_password.user-password.result
-  sensitive   = true
-}
+# output "generated_user_password" {
+#   description = "The auto generated default user password if not input password was provided"
+#   value       = random_password.user-password.result
+#   sensitive   = true
+# }
 
 output "additional_users" {
   description = "List of maps of additional users and passwords"
