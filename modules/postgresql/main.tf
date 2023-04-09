@@ -202,22 +202,22 @@ resource "random_password" "user-password" {
   depends_on = [null_resource.module_depends_on, google_sql_database_instance.default]
 }
 
-resource "random_password" "additional_passwords" {
-  for_each = local.users
-  keepers = {
-    name = google_sql_database_instance.default.name
-  }
-  length     = 32
-  special    = true
-  depends_on = [null_resource.module_depends_on, google_sql_database_instance.default]
-}
+# resource "random_password" "additional_passwords" {
+#   for_each = local.users
+#   keepers = {
+#     name = google_sql_database_instance.default.name
+#   }
+#   length     = 32
+#   special    = true
+#   depends_on = [null_resource.module_depends_on, google_sql_database_instance.default]
+# }
 
 resource "google_sql_user" "default" {
   count    = var.enable_default_user ? 1 : 0
   name     = var.user_name
   project  = var.project_id
   instance = google_sql_database_instance.default.name
-  password = var.user_password == "" ? random_password.user-password.result : var.user_password
+  password = var.user_password
   depends_on = [
     null_resource.module_depends_on,
     google_sql_database_instance.default,
@@ -230,7 +230,7 @@ resource "google_sql_user" "additional_users" {
   for_each = local.users
   project  = var.project_id
   name     = each.value.name
-  password = each.value.random_password ? random_password.additional_passwords[each.value.name].result : each.value.password
+  password = var.user_password
   instance = google_sql_database_instance.default.name
   depends_on = [
     null_resource.module_depends_on,
