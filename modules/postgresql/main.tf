@@ -192,15 +192,15 @@ resource "google_sql_database" "additional_databases" {
   deletion_policy = var.database_deletion_policy
 }
 
-resource "random_password" "user-password" {
-  keepers = {
-    name = google_sql_database_instance.default.name
-  }
+# resource "random_password" "user-password" {
+#   keepers = {
+#     name = google_sql_database_instance.default.name
+#   }
 
-  length     = 32
-  special    = true
-  depends_on = [null_resource.module_depends_on, google_sql_database_instance.default]
-}
+#   length     = 32
+#   special    = true
+#   depends_on = [null_resource.module_depends_on, google_sql_database_instance.default]
+# }
 
 # resource "random_password" "additional_passwords" {
 #   for_each = local.users
